@@ -59,7 +59,7 @@ public class CityService {
 
         return realCities;
     }
-    public List<City>  saveCities() throws IOException{
+    public List<City> addCitiesToFirestore() throws IOException{
         List<City> cities = getCitiesFromFile();
         Firestore c = FirestoreClient.getFirestore();
 
@@ -68,7 +68,7 @@ public class CityService {
                     + " to Firestore " + E.RED_APPLE);
             ApiFuture<DocumentReference> future = c.collection("cities").add(realCity);
             try {
-                LOGGER.info(" Cloud Firestore city added; ref: " + future.get().getPath());
+                LOGGER.info(E.GREEN_APPLE+" Firestore city; path: " + future.get().getPath());
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }
@@ -84,6 +84,9 @@ public class CityService {
         for (QueryDocumentSnapshot doc : docs) {
            City city = doc.toObject(City.class);
            resultCities.add(city);
+        }
+        if (resultCities.isEmpty()) {
+            resultCities = addCitiesToFirestore();
         }
         LOGGER.info(E.CHECK + E.CHECK + " Found " + resultCities.size()  + " cities from Firestore");
         return resultCities;

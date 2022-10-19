@@ -3,11 +3,9 @@ package com.boha.datadriver.controllers;
 import com.boha.datadriver.models.City;
 import com.boha.datadriver.services.CityService;
 import com.boha.datadriver.util.E;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -27,7 +25,7 @@ public class MainController {
     @GetMapping("/saveCities")
     private ResponseEntity<Object> saveCities() {
         try {
-            List<City> cities = cityService.saveCities();
+            List<City> cities = cityService.addCitiesToFirestore();
             LOGGER.info(E.BLUE_HEART+E.BLUE_HEART+E.CHECK+
                     " MainController Returning " + cities.size() + " cities");
             return ResponseEntity.ok(cities);
@@ -39,9 +37,6 @@ public class MainController {
     private ResponseEntity<Object> getCities() {
         try {
             List<City> cities = cityService.getCitiesFromFirestore();
-            if (cities.size() == 0) {
-                cities = cityService.saveCities();
-            }
             LOGGER.info(E.BLUE_HEART+E.BLUE_HEART+E.CHECK+
                     " Firestore Returning " + cities.size() + " cities " + E.CHECK);
             return ResponseEntity.ok(cities);
