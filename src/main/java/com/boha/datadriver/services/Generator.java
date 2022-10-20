@@ -31,7 +31,7 @@ public class Generator {
     List<City> cityList;
     int totalCount = 0;
     int maxCount;
-    public int generateEvents(long intervalInSeconds, int upperCountPerPlace, int maxCount) throws Exception {
+    public void generateEvents(long intervalInSeconds, int upperCountPerPlace, int maxCount) throws Exception {
         this.maxCount = maxCount;
         if (cityList == null || cityList.isEmpty()) {
             cityList = cityService.getCitiesFromFirestore();
@@ -53,7 +53,7 @@ public class Generator {
     void stopTimer() {
         timer.cancel();
         timer = null;
-        LOGGER.info(E.YELLOW_STAR+E.YELLOW_STAR+ "Generator Timer stopped");
+        LOGGER.info(E.YELLOW_STAR+E.YELLOW_STAR+ " Generator Timer stopped; events: " + totalCount);
     }
     void performWork(int upperCountPerPlace) throws Exception {
         int index = random.nextInt(cityList.size() - 1);
@@ -68,7 +68,6 @@ public class Generator {
             CityPlace cityPlace = places.get(mIndex);
             writeData(cityPlace);
             sendToPubSub(cityPlace);
-            LOGGER.info(E.LEAF+E.LEAF+" Event has been written or sent");
         }
         totalCount++;
         if (totalCount > maxCount) {
@@ -92,7 +91,8 @@ public class Generator {
         event.setLongDate(new Date().getTime());
 
         ApiFuture<DocumentReference> future = firestore.collection("events").add(event);
-        LOGGER.info(E.LEAF+E.LEAF+ " Event added to Firestore: " + future.get().getPath());
+        LOGGER.info(E.LEAF+E.LEAF+ " Event added to Firestore: "
+                + E.ORANGE_HEART + cityPlace.name);
     }
     void sendToPubSub(CityPlace cityPlace) {
 

@@ -76,13 +76,15 @@ public class MainController {
 
     @Autowired
     Generator generator;
-    @GetMapping("/getPlacesByCity")
+    @GetMapping("/generateEvents")
     private ResponseEntity<Object> generateEvents(long intervalInSeconds, int upperCountPerPlace, int maxCount)  {
         try {
-            int totalEvents = generator.generateEvents(intervalInSeconds,upperCountPerPlace,maxCount);
-            LOGGER.info(E.BLUE_HEART+E.BLUE_HEART+E.CHECK+
-                    "  City Places Found: " + placesByCity.size() + " " + E.CHECK);
-            return ResponseEntity.ok(placesByCity);
+            LOGGER.info(E.BLUE_HEART+E.BLUE_HEART+
+                            "  Generator starting .... ");
+                    generator.generateEvents(intervalInSeconds,upperCountPerPlace,maxCount);
+//            LOGGER.info(E.BLUE_HEART+E.BLUE_HEART+E.CHECK+
+//                    "  Generator completed: " + " " + E.CHECK);
+            return ResponseEntity.ok("Generator has started. Check logs and Firestore");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
         }
@@ -90,4 +92,3 @@ public class MainController {
 
 
 }
-//AIzaSyCDiIBwKgGf2z9rseOFn8GjkrJluHpCDl4

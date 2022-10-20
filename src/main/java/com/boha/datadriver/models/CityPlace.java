@@ -1,7 +1,6 @@
 package com.boha.datadriver.models;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CityPlace {
     public Geometry geometry;
