@@ -26,6 +26,9 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.google.firebase/firebase-admin
 	implementation group: 'com.google.firebase', name: 'firebase-admin', version: '9.1.0'
 
+	// https://mvnrepository.com/artifact/com.squareup.okhttp/okhttp
+	implementation group: 'com.squareup.okhttp', name: 'okhttp', version: '2.7.5'
+
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

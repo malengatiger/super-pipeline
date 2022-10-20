@@ -1,11 +1,16 @@
 package com.boha.datadriver.controllers;
 
 import com.boha.datadriver.models.City;
+import com.boha.datadriver.models.CityPlace;
 import com.boha.datadriver.services.CityService;
+import com.boha.datadriver.services.Generator;
+import com.boha.datadriver.services.PlacesService;
 import com.boha.datadriver.util.E;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -44,4 +49,45 @@ public class MainController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
         }
     }
+    @Autowired
+    PlacesService placesService;
+    @GetMapping("/loadCityPlaces")
+    private ResponseEntity<Object> loadCityPlaces() {
+        try {
+            String loaded = placesService.loadCityPlaces();
+            LOGGER.info(E.BLUE_HEART+E.BLUE_HEART+E.CHECK+
+                    "  " + loaded + E.CHECK);
+            return ResponseEntity.ok(loaded);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
+        }
+    }
+    @GetMapping("/getPlacesByCity")
+    private ResponseEntity<Object> getPlacesByCity(@RequestParam String cityId) {
+        try {
+            List<CityPlace> placesByCity = placesService.getPlacesByCity(cityId);
+            LOGGER.info(E.BLUE_HEART+E.BLUE_HEART+E.CHECK+
+                    "  City Places Found: " + placesByCity.size() + " " + E.CHECK);
+            return ResponseEntity.ok(placesByCity);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
+        }
+    }
+
+    @Autowired
+    Generator generator;
+    @GetMapping("/getPlacesByCity")
+    private ResponseEntity<Object> generateEvents(long intervalInSeconds, int upperCountPerPlace, int maxCount)  {
+        try {
+            int totalEvents = generator.generateEvents(intervalInSeconds,upperCountPerPlace,maxCount);
+            LOGGER.info(E.BLUE_HEART+E.BLUE_HEART+E.CHECK+
+                    "  City Places Found: " + placesByCity.size() + " " + E.CHECK);
+            return ResponseEntity.ok(placesByCity);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
+        }
+    }
+
+
 }
+//AIzaSyCDiIBwKgGf2z9rseOFn8GjkrJluHpCDl4

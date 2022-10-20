@@ -9,5 +9,8 @@ public class E {
     public static final String ORANGE_HEART = "\uD83E\uDDE1"; //🧡
     public static final String YELLOW_STAR = "\uD83D\uDD06"; //🔆
     public static final String AMP = "\uD83C\uDF00"; //🌀
+    public static final String LEAF = "\uD83E\uDD6C"; // 🥬
     public static final String CHECK = "✅"; //✅
+    public static final String PEAR = " \uD83C\uDF50"; // 🍐
+
 }

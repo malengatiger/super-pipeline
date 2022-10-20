@@ -77,7 +77,9 @@ public class CityService {
     }
     public List<City> getCitiesFromFirestore() throws Exception {
         Firestore c = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> future = c.collection("cities").get();
+        ApiFuture<QuerySnapshot> future = c.collection("cities")
+                .orderBy("city")
+                .get();
         QuerySnapshot snapshot = future.get();
         List<QueryDocumentSnapshot> docs = snapshot.getDocuments();
         List<City> resultCities = new ArrayList<>();
